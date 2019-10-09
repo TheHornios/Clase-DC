@@ -18,12 +18,13 @@
                     texto= pasarDiaTexto(date.getDay(),true)+", "+date.getDate()+" de "+pasarMesTexto(date.getMonth(),true)+" de "+date.getFullYear();
                 }else{
                     if(opcion = 3){
-                        texto= pasarDiaTexto(date.getDay(),false)+", "+pasarMesTexto(date.getMonth(),false)+" "+date.getDate()+" de "+date.getFullYear();
+                        texto= pasarDiaTexto(date.getDay(),false)+", "+pasarMesTexto(date.getMonth(),false)+" "+date.getDate()+" of "+date.getFullYear();
                     }
                 }
             }
             return texto;
         } 
+
         function pasarMesTexto(mes,ingles){
             var arr1 = new Array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
             var arr = new Array("January","February","March","April","May","June","July","August","September","October","November","December");
