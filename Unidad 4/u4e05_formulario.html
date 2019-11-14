@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>formulario</title>
+</head>
+<body>
+    <div class="crear">
+        <label calss="disco">Nombre Del Disco:</label>
+        <input required type='text' name='Disco' id="disco" placeholder="Nombre Del Disco"><br/>
+        <label calss="grupo">Nombre Del Grupo:</label>
+        <input required type='text' name='Grupo' id="grupo" placeholder="Nombre Del Grupo"><br/>
+        <label calss="fecha">Fecha De Publicacion:</label>
+        <input required type='number' id="fecha" name='Fecha'><br/>
+        <label >Sitio en la estanteria:</label>
+        <input required type='number' id="estanteria" name='Estanteria'><br/>
+        <div class="radio">
+            <input type="radio" checked name="rock">Rock
+            <input type="radio" name="pop">Pop
+            <input type="radio" name="punk">Punk
+            <input type="radio" name="indie">Indie
+        </div>
+               
+        <input id='imput' type='submit' value='Iniciar' name='enviar'>
+    </div>
+    <script>
+        function validarNombreDisco(valor){
+            if(valor.length <=20){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        function validarAño(valor){
+            if(valor>1000&&valor<10000){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        document.addEventListener('DOMContentLoaded',function(){
+            document.getElementById("imput").addEventListener("click",function(){
+                document.getElementById("disco").style.border = "";
+                document.getElementById("grupo").style.border = "";
+                document.getElementById("fecha").style.border = "";
+                if(validarNombreDisco(document.getElementById("disco").value)&&validarNombreDisco(document.getElementById("grupo").value)&&validarAño(document.getElementById("fecha").value)){
+                    document.write("El disco es correcto");
+                    /*
+                        Lugar donde se añade el disco
+                    */
+                }else{
+                    if(!validarNombreDisco(document.getElementById("disco").value)){
+                        document.getElementById("disco").style.border = "2px solid red";
+                        document.getElementById("disco").placeholder = "El tiene que ser menor que 20 caracteres";
+                    }
+                    if(!validarNombreDisco(document.getElementById("grupo").value)){
+                        document.getElementById("grupo").style.border = "2px solid red";
+                        document.getElementById("disco").placeholder = "El tiene que ser menor que 20 caracteres";
+                    }
+                    if(!validarAño(document.getElementById("fecha").value)){
+                        document.getElementById("fecha").style.border = "2px solid red";
+                        document.getElementById("disco").placeholder = "La fecha tiene que estar entre 1000 y 10000";
+                    }
+                }
+            });
+        },false);
+       
+    </script>
+    <script>
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="Cuerpo">
+        <div class="fecha">
+            <div class="texto"></div>
+            <label for="fecha">Fecha</label>
+            <input required type='text' id="fecha" name='fecha'><br/>
+        </div>
+        <div class="cocinero">
+            <div class="texto"></div>
+            <label for="cocinero">Cocinero</label>
+            <input required type='text' id="cocinero" name='fecha'><br/>
+        </div>
+        <div class="destinatario">
+            <div class="texto"></div>
+            <label for="destinatario">Destinatario</label>
+            <input required type='text' id="destinatario" name='destinatario'><br/>
+        </div>
+        <div class="gramos">
+            <div class="texto"></div>
+            <label for="gramos">Gramos</label>
+            <input required type='number' id="gramos" name='gramos'><br/>
+        </div>
+        <div class="compoQuimi">
+            <div class="texto"></div>
+            <label for="compoQuimi">Composicion</label>
+            <input required type='text' id="compoQuimi" name='compoQuimi'><br/>
+        </div>
+        <div class="cuenta">
+            <div class="texto"></div>
+            <label for="cuenta">Numero De Cuenta</label>
+            <input required type='text' id="cuenta" name='cuenta'><br/>
+        </div>
+        <input id='imput' type='submit' value='Iniciar' name='enviar'>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded',function(){
+            añadirKeyListener(document.getElementById("imput"),"click",iniciar);
+        });
+        function añadirKeyListener(elemento,tipo,funcino){
+            elemento.addEventListener(tipo,function(){
+                funcino();
+            });
+        }
+        function iniciar(){
+            comporbarElementos();
+        }
+        function comporbarElementos(){
+            var arrErrores = new Array();
+            var arrBien = new Array();
+           // ((!/[0-9]{2}\/[0-9]{2}\/[0-9]{4}/.test(document.getElementById("fecha").value))?arrErrores:arrBien).push(document.getElementById("fecha"));
+           // ((!/[A-Z]{2}\W\d{4}/.test(document.getElementById("cocinero").value))?arrErrores:arrBien).push(document.getElementById("cocinero"));
+           // ((!/[A-Z]{2,3}_[a-z]*:[0-9]{4}/.test(document.getElementById("destinatario").value))?arrErrores:arrBien).push(document.getElementById("destinatario"));
+           ((!/ /.test(""))?arrErrores:arrBien).push(document.getElementById("gramos"));
+            console.log(arrErrores.length+" "+arrBien.length);
+           
+           /*
+            (!compobarExpresionRegular())?arrErrores.pus(document.getElementById("compoQuimi")):arrErrores.push(document.getElementById("compoQuimi"));
+            (!compobarExpresionRegular())?arrErrores.pus(document.getElementById("cuenta")):arrErrores.push(document.getElementById("cuenta"));
+       */
+        }
+    </script>
+</body>
+</html>
