@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="Cuerpo">
+        <div class="fecha">
+            <div class="texto"></div>
+            <label for="fecha">Fecha</label>
+            <input required type='text' id="fecha" name='fecha' placeholder="dd/mm/aaaa"><br/>
+        </div>
+        <br/>
+        <div class="cocinero">
+            <div class="texto"></div>
+            <label for="cocinero">Cocinero</label>
+            <input required type='text' id="cocinero" name='fecha' placeholder="Ej. WW$1234"><br/>
+        </div>
+        <br/>
+        <div class="destinatario">
+            <div class="texto"></div>
+            <label for="destinatario">Destinatario</label>
+            <input required type='text' id="destinatario" name='destinatario' placeholder="Ej. NM_alburquerque:1234"><br/>
+        </div>
+        <br/>
+        <div class="gramos">
+            <div class="texto"></div>
+            <label for="gramos">Gramos</label>
+            <input required type='number' id="gramos" name='gramos' placeholder="100 al 5000"><br/>
+        </div>
+        <br/>
+        <div class="compoQuimi">
+            <div class="texto"></div>
+            <label for="compoQuimi">Composicion</label>
+            <input required type='text' id="compoQuimi" name='compoQuimi' placeholder="Ej. 200gC3OH7"><br/>
+        </div>
+        <br/>
+        <div class="cuenta">
+            <div class="texto"></div>
+            <label for="cuenta">Numero De Cuenta</label>
+            <input required type='text' id="cuenta" name='cuenta' placeholder="Ej. AA02-111122223333-0102"><br/>
+        </div>
+        <div class="">
+            <div class="">Intentos: <span id="intentos"></span>
+            <script>
+                if(localStorage.getItem("erorCont")==undefined){
+                    localStorage.setItem("erorCont","0");
+                }
+                document.getElementById('intentos').innerHTML = localStorage.getItem("erorCont");
+            </script>
+            <input id='reiniciar' type='submit' value='Reinicar contador' name='reinicar'>
+            </div>
+        </div>
+        <input id='imput' type='submit' value='Iniciar' name='enviar'>
+    </div>
+    <script>
+         //console.log(validarCuenta("AA02-111122223333-0102"));
+         
+        document.addEventListener('DOMContentLoaded',function(){
+            añadirKeyListener(document.getElementById("imput"),"click",iniciar);
+            añadirKeyListener(document.getElementById("reiniciar"),"click",reinicar);
+        });
+        function reinicar(){
+            localStorage.setItem("erorCont","0");
+            document.getElementById('intentos').innerHTML = 0;
+        }
+        function añadirKeyListener(elemento,tipo,funcino){
+            elemento.addEventListener(tipo,function(){
+                funcino();
+            });
+        }
+        function iniciar(){
+            var arraysValidacion = comporbarElementos();
+            ponerBien(arraysValidacion[1]);
+            ponerMal(arraysValidacion[0]);
+        }
+        function ponerBien(arrayBien){
+            for(let i = 0;i<arrayBien.length;i++){
+                document.querySelectorAll("."+arrayBien[i]).forEach(function(e){
+                    e.style.border = "2px solid green";
+                });
+            }
+        }
+        function ponerMal(arrayMal){
+            
+            $unEror = false;
+            for(let i = 0;i<arrayMal.length;i++){
+                    
+                document.querySelectorAll("."+arrayMal[i]).forEach(function(e){
+                    e.style.border = "2px solid red";
+                    $unEror = true;
+                });
+                document.getElementById(arrayMal[i]).value = "";
+            }
+            if($unEror){
+                var leerCockie = document.cookie;
+                localStorage.setItem("erorCont",parseInt(localStorage.getItem("erorCont"))+1);
+                document.getElementById('intentos').innerHTML = localStorage.getItem("erorCont");
+                //str.split(" ")
+            }
+        }
+        function comporbarElementos(){
+            var arrErrores = new Array();
+            var arrBien = new Array();
+            ((!/[0-9]{2}\/[0-9]{2}\/[0-9]{4}/.test(document.getElementById("fecha").value))?arrErrores:arrBien).push("fecha");
+            ((!/[A-Z]{2}\W\d{4}/.test(document.getElementById("cocinero").value))?arrErrores:arrBien).push("cocinero");
+            ((!/[A-Z]{2,3}_[a-z]*:[0-9]{4}/.test(document.getElementById("destinatario").value))?arrErrores:arrBien).push("destinatario");
+            ((!/(^[1-9]{1}[0-9]{2}$)|(^[1-4]{1}[0-9]{3}$)|(^5000)/.test(document.getElementById("gramos").value))?arrErrores:arrBien).push("gramos");
+            ((!/((^[1-9]{1}[0-9]{2})|(^[1-5]{1}[0-9]{3}))g(([A-Z]{1,2}[0-9]{0,1}){2})/.test(document.getElementById("compoQuimi").value))?arrErrores:arrBien).push("compoQuimi");
+            ((!validarCuenta(document.getElementById("cuenta").value))?arrErrores:arrBien).push("cuenta");
+            return new Array(arrErrores,arrBien);
+        }
+        function validarCuenta(cuenta){
+            if(/([A-Z]|[a-z]){2}[0-9]{2}-[0-9]{12}-[0-9]{2}/.test(cuenta)){
+                var arrayLetras = new Array('A',"B","C","D","E","F","G","H","I","J","Q","L","N","M","O","P","Q","R","S","T","U","V","W","X","Y","Z"); 
+                var primeraLetra = null;
+                var primeraSegunda = null;
+                for(let i = 0;i<arrayLetras.length;i++){
+                    if(cuenta.charAt(0).toUpperCase()==arrayLetras[i]){
+                        primeraLetra = i+1;
+                    }
+                    if(cuenta.charAt(1).toUpperCase()==arrayLetras[i]){
+                        primeraSegunda = i+1;
+                    }
+                }
+                var resultadoNumerosInicio = primeraLetra+primeraSegunda;
+                if(resultadoNumerosInicio == cuenta.substring(2,4)){
+                    var primeraParte = cuenta.substring(5,11);
+                    var segundaParte = cuenta.substring(11,17);
+                    var resultPrimeraPart = parseInt(primeraParte.charAt(0));
+                    var resultSegundaPart = parseInt(segundaParte.charAt(0));
+                    for(let i = 1;i<primeraParte.length;i++){
+                        resultPrimeraPart=resultPrimeraPart+parseInt(primeraParte.charAt(i));
+                        resultSegundaPart=resultPrimeraPart+parseInt(segundaParte.charAt(i));
+                    }
+                    if(cuenta.substring(18,20)==Math.round(resultPrimeraPart/6)&&cuenta.substring(20,22)==Math.round(resultSegundaPart/6)){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>
