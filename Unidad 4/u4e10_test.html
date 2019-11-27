@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div{
+            margin:20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form">
+        <h1>Text de rick y morty</h1>
+        <div id="p1">
+                <img src="6_IMG/1.png"><br/>
+                <img src=""><input type="radio" name="p1" class="radio" value="1">Beth<br/>
+                <img src=""><input type="radio" name="p1" class="radio" value="2">Rick<br/>
+                <img src=""><input type="radio" name="p1" class="radio" value="3">Jerry<br/>
+                <img src=""><input type="radio" name="p1" class="radio" value="4">Summer<br/>
+        </div>
+        <div id="p2">
+                <img src="6_IMG/2.png"><br/>
+                <img src=""><input type="radio" name="p2" class="radio" value="1">Un aftershave<br/>
+                <img src=""><input type="radio" name="p2" class="radio" value="2">Un microscopio<br/>
+                <img src=""><input type="radio" name="p2" class="radio" value="3">Una maquina de escribir<br/>
+                <img src=""><input type="radio" name="p2" class="radio" value="4">Una bufanda de zorro<br/>
+        </div>
+        <div id="p3">
+                <img src="6_IMG/3.png"><br/>
+                <img src=""><input type="radio" name="p3" class="radio" value="1">¡Sorpresa!<br/>
+                <img src=""><input type="radio" name="p3" class="radio" value="2">¡Rick!<br/>
+                <img src=""><input type="radio" name="p3" class="radio" value="3">¡Morty!<br/>
+                <img src=""><input type="radio" name="p3" class="radio" value="4">¡Despierta!<br/>
+        </div>
+        <div id="p4">
+                <img src="6_IMG/4.png"><br/>
+                <img src=""><input type="radio" name="p4" class="radio" value="1">Snuffles<br/>
+                <img src=""><input type="radio" name="p4" class="radio" value="2">Snowflake<br/>
+                <img src=""><input type="radio" name="p4" class="radio" value="3">Snowball<br/>
+                <img src=""><input type="radio" name="p4" class="radio" value="4">Snifer<br/>
+        </div>
+        <div id="p5">
+                <img src="6_IMG/5.png"><br/>
+                <img src=""><input type="radio" name="p5" class="radio" value="1">El higado embujado<br/>
+                <img src=""><input type="radio" name="p5" class="radio" value="2">Las cascadas Vejiga<br/>
+                <img src=""><input type="radio" name="p5" class="radio" value="3">Piratas del Pancreas<br/>
+                <img src=""><input type="radio" name="p5" class="radio" value="4">La montaña Brazo<br/>
+        </div>
+        <div id="p6">
+                <img src="6_IMG/6.png"><br/>
+                <img src=""><input type="radio" name="p6" class="radio" value="1">A que no te gustan las salchichas?<br/>
+                <img src=""><input type="radio" name="p6" class="radio" value="2">Te apetecen manzanas?<br/>
+                <img src=""><input type="radio" name="p6" class="radio" value="3">Un bocadillo de pan? <br/>
+                <img src=""><input type="radio" name="p6" class="radio" value="4">Quieres leche? <br/>
+        </div>
+        <div id="p7">
+                <img src="6_IMG/7.png"><br/>
+                <img src=""><input type="radio" name="p7" class="radio" value="1">Pene de pajaro<br/>
+                <img src=""><input type="radio" name="p7" class="radio" value="2">Verduras<br/>
+                <img src=""><input type="radio" name="p7" class="radio" value="3">Alpiste<br/>
+                <img src=""><input type="radio" name="p7" class="radio" value="4">Lombrices con cereales<br/>
+        </div>
+        <div id="p8">
+                <img src="6_IMG/8.png"><br/>
+                <img src=""><input type="radio" name="p8" class="radio" value="1">Hola<br/>
+                <img src=""><input type="radio" name="p8" class="radio" value="2">Os queremos a todos madafakas<br/>
+                <img src=""><input type="radio" name="p8" class="radio" value="3">Paz entre los mundos<br/>
+                <img src=""><input type="radio" name="p8" class="radio" value="4">Encantados de volver a vernos<br/>
+        </div>
+        <div id="p9">
+                <img src="6_IMG/9.png"><br/>
+                <img src=""><input type="radio" name="p9" class="radio" value="1">Que comience la fiesta<br/>
+                <img src=""><input type="radio" name="p9" class="radio" value="2">Estoy sufriendo, por favor ayudadme<br/>
+                <img src=""><input type="radio" name="p9" class="radio" value="3">Creo que te equivocas<br/>
+                <img src=""><input type="radio" name="p9" class="radio" value="4">Zaska<br/>
+        </div>
+        <div id="p10">
+                <img src="6_IMG/10.png"><br/>
+                <img src=""><input type="radio" name="p10" class="radio" value="1">Si<br/>
+                <img src=""><input type="radio" name="p10" class="radio" value="2">No<br/>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <input type="submit" name="enviar" id="boton" value="enviar">
+    </div>
+    <div id="Respuesta"></div>
+    <script>
+        for(let i = 1;i<11;i++){
+            if(localStorage.getItem('p'+i)!=null){
+                document.querySelectorAll("input[name=p"+i+"]").forEach(function(e){
+                    if(e.value==localStorage.getItem('p'+i)){
+                        e.checked = true; 
+                    }
+                });
+            }
+        }
+        document.querySelectorAll('.radio').forEach(function(de){
+            de.addEventListener('click',marcarCasilla);
+        });
+        function marcarCasilla(e){
+            localStorage.setItem(e.target.name,e.target.value);
+        }
+
+        document.querySelector("#boton").addEventListener("click",function(){
+            var arr = new Array();
+            for(let i = 0;i<10;i++){
+                document.getElementById("p"+(i+1)).style.border = '';
+                arr[i] = null;
+                document.querySelectorAll("input[name=p"+(i+1)+"]").forEach(function(e,key){
+                    if(e.checked){
+                        arr[i] = e.value;
+                    }
+                });
+            }
+            var error = null;
+            for(let i = 0;i<10;i++){
+                if(arr[i] == null){
+                    error = 1;
+                    document.getElementById("p"+(i+1)).style.border = '3px solid red';
+                }
+            }
+            if(error!=null){
+                document.getElementById("Respuesta").innerHTML = "Faltan Pregunstas sin responder"
+            }else{
+                var respuestasCorrectas = new Array(1,2,2,1,3,2,1,3,2,2);
+                var correctas = 0;
+                for(let i = 0;i<10;i++){
+                    localStorage.removeItem('p'+i);
+                    if(respuestasCorrectas[i]==arr[i]){
+                        correctas++;
+                        document.querySelectorAll("input[name=p"+(i+1)+"]").forEach(function(e,key){
+                            e.style.display = "none";
+                            if(e.value == respuestasCorrectas[i]){
+                                e.previousElementSibling.src = "6_IMG/check.png";
+                            }
+                        });
+                    }else{
+                        document.querySelectorAll("input[name=p"+(i+1)+"]").forEach(function(e,key){
+                            e.style.display = "none";
+                            if(e.value == arr[i]){
+                                e.previousElementSibling.src = "6_IMG/check2.png";
+                            }
+                            if(e.value == respuestasCorrectas[i]){
+                                e.previousElementSibling.src = "6_IMG/check.png";
+                            }
+                        });
+                    }
+                }
+                document.getElementById("Respuesta").innerHTML = "Prefuntas correctas:"+correctas;
+            }
+    
+        });
+    </script>
+</body>
+</html>

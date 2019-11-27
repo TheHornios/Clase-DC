@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="">
+        <input id="valor" required type="text" name="valor">
+        <button type="button" id="Boton" name="enviar" id="Enviar">Enviar</button>
+    </form>
+    <script>
+        if(localStorage.getItem("valor")!=undefined){
+            document.getElementById('valor').value  = localStorage.getItem("valor");
+        }
+        document.addEventListener('DOMContentLoaded',function(){
+            document.getElementById('Boton').addEventListener("click",function(){
+                localStorage.setItem("valor",document.getElementById('valor').value);
+            });
+        });
+        /*
+        Al hacer clic en enviar, guarda el valor del input en un item con nombre valor utilizando webstorage; tiene que permanecer al salir de la sesión.
+        Al entrar en la pantalla, comprueba si hay un item con nombre valor, y lo muestra como valor del input
+        */
+    </script>
+
+</body>
+
+</html>
