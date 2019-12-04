@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        <li>UNO</li>
+        <li>DOS</li>
+        <li>TRES</li>
+        <li>CUATRO</li>
+        <li>CINCO</li>
+    </ul>
+    <input type="button" name='añadir' class="boton" value="Añadir elemento">
+    <input type="button" name='primero' class="boton" value="Borrar primer li">
+    <input type="button" name='ultimo' class="boton" value="Borrar último li">
+    <script>
+        document.querySelectorAll(".boton").forEach(function(e){
+            e.addEventListener('click',click);
+        });
+        function click(e) {
+            if(e.target.name == 'añadir'){
+                anadir(e);
+            }
+            if(e.target.name == 'primero'){
+                primero(e);
+            }
+            if(e.target.name == 'ultimo'){
+                ultimo(e);
+            }
+        }
+        function anadir(e) {
+            var li = document.createElement('li');
+            getElemento('ul').appendChild(li);
+            li.appendChild(document.createTextNode(prompt('Texto del li')));
+        }
+        function primero(e) {
+            getElemento('ul li:first-of-type').remove();
+        }
+        function ultimo(e) {
+            getElemento('ul li:last-of-type').remove();
+        }
+        function getElemento(selector){
+            return document.querySelector(selector);
+        }
+    </script>
+</body>
+</html>

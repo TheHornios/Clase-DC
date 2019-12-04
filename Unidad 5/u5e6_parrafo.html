@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <textarea name="texto" id="textArea" cols="30" rows="10"></textarea>
+    <input type="button" value="Crear">
+    <div>
+
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded',function(){
+            query('input[value="Crear"]')[0].addEventListener("click",click);
+        },false);
+        function click() {
+           
+            if(query('textarea')[0].value !=""){
+                console.log("-"+query('textarea')[0].value+"-");
+                let p = crearElemento('p');
+                p.textContent = query('textarea')[0].value;
+                anadirElemento(query('div')[0],p);
+            }else{
+                alert('No hay nada en el texto');
+            }
+        }
+        function anadirElemento(elmento,anadir){
+            elmento.appendChild(anadir);
+        }
+        function query(css){
+            return document.querySelectorAll(css);
+        }
+        function crearElemento(tipo) {
+            return document.createElement(tipo);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>u6e1_analisispagina_texto.html</title>
+</head>
+
+<body>
+    <div>
+        <p>Ir a: <a href="https://www.google.es/">Google</a> o a <a href="https://www.bing.com/?setlang=es">Bing</a></p>
+        <p>Ir a: <a href="https://es.wikipedia.org/wiki/JavaScript">Wikipedia JavaScript</a></p>
+        <p>Ir a: <a href="/wiki/Municipio">Wikipedia JavaScript</a></p>
+    </div>
+	<div>
+		<h2>Información de la página:</h2>
+		<div id="info"></div>
+    </div>
+    <script>
+        var parrafosTotal = document.querySelectorAll('p').length;
+        var txtSecParrafo = document.querySelectorAll('p')[1].innerText;
+        var aTotal = document.querySelectorAll('a').length;
+        var direcionPrimerA = document.querySelectorAll('a')[0].href;
+        var penultimoEnlace = document.querySelectorAll('a')[aTotal-2].href;
+        var numeroEnlacesMunicipio = document.querySelectorAll('a[href="/wiki/Municipio"]').length;
+        var numeroA_PrimerParrafo = document.querySelectorAll('p:first-of-type a').length;
+        document.querySelector('#info').innerHTML = "El número de párrafos de la página = "+parrafosTotal+"<br/>El texto del segundo párrafo = "+txtSecParrafo+"<br/>El número de enlaces de la página = "+aTotal+"<br/>La dirección del primer enlace = "+direcionPrimerA+"<br/>La dirección del penúltimo enlace = "+penultimoEnlace+"<br/>El número de enlaces que apuntan a /wiki/Municipio = "+numeroEnlacesMunicipio+"<br/>El número de enlaces del primer párrafo = "+numeroA_PrimerParrafo;
+    </script>
+</body>
+
+</html>

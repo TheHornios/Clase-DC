@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="tab">
+        <table>
+            <tr>
+                <td> <input type="button" name='texto' value="Crear Input Text"></td>
+                <td> <input type="button" name='pass' value="Crear Input Password"></td>
+                <td> <input type="button" name='textArea' value="Crear Un TextArea"></td>
+                <td> <input type="button" name='label' value="Crear Un Label"></td>
+                <td> <input type="button" name='img' value="Crear Un IMG"></td>
+                <td> <input type="button" name='chack' value="Crear CheckBox"></td>
+                <td> <input type="button" name='radio' value="Crear Radio Buttom"></td>
+                <td> <input type="button" name='submit' value="Crear Boton Submit"></td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        query('input').forEach(function(e) {
+            e.addEventListener('click',click);
+        });
+        function click(e){
+            if(e.target.name == 'texto'){
+                inputText();
+            }
+            if(e.target.name == 'pass'){
+                inputPass();
+            }
+            if(e.target.name == 'textArea'){
+                inputTextArea();
+            }
+            if(e.target.name == 'label'){
+                crearLavel();
+            }
+            if(e.target.name == 'img'){
+                crarImg();
+            }
+            if(e.target.name == 'chack'){
+                chebox();
+            }
+            if(e.target.name == 'radio'){
+                radioButom();
+            }
+            if(e.target.name == 'submit'){
+                crearSumit();
+            }
+        }
+        function crearSumit() {
+            var dato = prompt("Intrduce el name de Boton");
+            var dato2 = prompt("Introduce el value");
+            anadirTrTd(crearInputConValue('submit',dato,dato2));
+        }
+        function inputPass() {
+            var dato = prompt("variable (atributo name) tiene el input");
+            anadirTrTd(crearInput('password',dato,dato));
+        }
+        function inputTextArea() {
+            var dato = prompt("Nombre del textArea");
+            anadirTrTd(crearTextArea('textarea',dato));
+        }
+        function radioButom() {
+            var dato = prompt("Intrduce el name de radioButom");
+            var dato2 = prompt("Introduce el value");
+            anadirTrTd(crearInputConValue('radio',dato,dato2));
+        }
+        function chebox() {
+            var dato = prompt("Intrduce el name de checkBox");
+            var dato2 = prompt("Introduce el value");
+            anadirTrTd(crearInputConValue('checkbox',dato,dato2));
+        }
+        function crarImg() {
+            var dato = prompt("Src de la imagen");
+            var elemento = crearElemento('img');
+            elemento.src = dato;
+            anadirTrTd(elemento);
+        }
+        function crearLavel() {
+            var dato = prompt("Texto del label");
+            var dato2 = prompt("Input Adociado");
+            var elemento = crearElemento('label');
+            elemento.setAttribute('for',dato2);
+            elemento.textContent = dato;
+            anadirTrTd(elemento);
+        }
+
+        function inputText() {
+            var dato = prompt("variable (atributo name) tiene el input");
+            anadirTrTd(crearInput('text',dato,dato));
+        }
+        function crearTextArea(type,name) {
+            var input = crearElemento(type);
+            input.id=name;
+            input.name = name;
+            input.cols = 40;
+            input.rows = 5;
+            return input;
+        }
+        function crearInput(type,name,id) {
+            var input = crearElemento('input');
+            input.type = type;
+            input.name = name;
+            input.id = id;
+            return input;
+        }
+        function crearInputConValue(type,name,id) {
+            var input = crearElemento('input');
+            input.type = type;
+            input.name = name;
+            input.id = name;
+            input.value = id;
+            return input;
+        }
+        function anadirTrTd(elemento) {
+            var tr = crearElemento('tr');
+            var td = crearElemento('td');
+            tr.appendChild(td);
+            td.appendChild(elemento);
+            query('table')[0].appendChild(tr);
+        }
+        function crearElemento(tipo) {
+            return document.createElement(tipo);
+        }
+        function query(selector) {
+            return document.querySelectorAll(selector);
+        }
+    </script>
+</body>
+</html>
