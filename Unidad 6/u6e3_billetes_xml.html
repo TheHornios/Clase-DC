@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div class="origen">
+        <h1>Origen</h1>
+        <select name="origin" id="selectOrigen">
+        </select>
+    </div>
+    <div class="destino">
+        <h1>Destino</h1>
+        <select name="destino" id="selectDestino">
+        </select>
+    </div>
+    <script>
+        var arrOrigenDestino  = new Array();
+        document.addEventListener('DOMContentLoaded',function(){
+            crearAjax('viajes.xml',rellenarArrayDestinoOrigen);
+            query("#selectOrigen")[0].addEventListener("change",rellanarSelectDestino);
+        },false);
+        function rellenarArrayDestinoOrigen(event){
+            quieryInter(event,"origenYdestino").forEach(element => {
+                var origen = quieryInter(element,'origen')[0].innerHTML;
+                var destino = new Array();
+                quieryInter(element,'destino').forEach(ele => {
+                    destino.push(ele.innerHTML);
+                });
+                arrOrigenDestino.push(new Array(origen,destino));
+            });
+            rellanerSelectOrigen();
+        }
+        function rellanerSelectOrigen(){
+            for(let i = 0;i<arrOrigenDestino.length;i++){
+                var option = crearElemento("option");
+                option.value = arrOrigenDestino[i][0];
+                option.textContent = arrOrigenDestino[i][0];
+                anadirElemento(query("#selectOrigen")[0],option);
+            }
+            query("#selectOrigen")[0].selectedIndex = -1;
+        }
+        function rellanarSelectDestino(){
+            query("#selectDestino")[0].innerHTML = "";
+            for(let i = 0;i<arrOrigenDestino[this.selectedIndex][1].length;i++){
+                var option = crearElemento("option");
+                option.value = arrOrigenDestino[this.selectedIndex][1][i];
+                option.textContent = arrOrigenDestino[this.selectedIndex][1][i];
+                anadirElemento(query("#selectDestino")[0],option);
+            }
+            query("#selectDestino")[0].selectedIndex = -1;
+        }
+        function query(css){
+            return document.querySelectorAll(css);
+        }
+        function crearAjax(url,funct){
+            var xhr  = new XMLHttpRequest();
+            xhr.open("GET",url,true);
+            xhr.send();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4  && this.status == 200){
+                    funct(this.responseXML);
+                }
+                if((this.readyState ==  4 ||this.readyState ==  2 ||this.readyState ==  3 ) && this.status == 404){
+                    alert("XML no encontrado");
+                }
+            }
+        }
+        function anadirElemento(elmento,anadir){
+            elmento.appendChild(anadir);
+        }
+        function crearElemento(tipo) {
+            return document.createElement(tipo);
+        }
+        function quieryInter(lugarBuscar,css){
+            return lugarBuscar.querySelectorAll(css);
+        }
+    </script>
+</body>
+</html>

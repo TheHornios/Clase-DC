@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Series>
+	<Serie>
+		<Título>Juego de tronos</Título>
+		<Cadena>HBO</Cadena>
+        <Director>Alfonso</Director>
+        <Año>2000</Año>
+        <Terminada>si</Terminada>			
+	</Serie>
+	<Serie>
+		<Título>Rick and Morthy</Título>
+		<Cadena>Netflix</Cadena>
+        <Director>Jesus</Director>
+        <Año>2002</Año>
+        <Terminada>no</Terminada>			
+	</Serie>
+	<Serie>
+		<Título>No se</Título>
+		<Cadena>FX</Cadena>
+        <Director>Maria</Director>
+        <Año>2019</Año>
+        <Terminada>no</Terminada>			
+	</Serie>
+</Series>

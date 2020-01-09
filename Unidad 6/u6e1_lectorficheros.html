@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" name="urlUsu" id="urlUsu">
+    <input type="button" value="Mostrar Contenido" id="borton">
+    <script>
+        document.addEventListener('DOMContentLoaded',function(){
+            query('#urlUsu')[0].value = document.location.href;
+            query('#borton')[0].addEventListener("click",function(){
+                crearAjax(query('#urlUsu')[0].value,crearTextArea);
+            });
+        },false);
+        function crearTextArea(value){
+            let i = crearElemento('textArea');
+            i.value = value;
+            i.rows = 50;
+            i.cols = 50;
+            anadirElemento(query('body')[0],i);
+        }
+        function query(css){
+            return document.querySelectorAll(css);
+        }
+        function crearAjax(url,funct){
+            var xhr  = new XMLHttpRequest();
+            xhr.open("GET",url,true);
+            xhr.send();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4  && this.status == 200){
+                    funct(this.responseText);
+                }
+            }
+        }
+        function anadirElemento(elmento,anadir){
+            elmento.appendChild(anadir);
+        }
+        function crearElemento(tipo) {
+            return document.createElement(tipo);
+        }
+
+    </script>
+</body>
+</html>

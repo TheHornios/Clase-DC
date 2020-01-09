@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        @font-face {
+            font-family: "efe";
+            src: url("fonts/Kawaii Food Font.ttf");
+            
+        }
+        table,td,tr,th {
+            border: solid 1px black;
+        }
+        #font{
+            font-family: efe;
+            font-size: 2em;
+        }
+        #cursiva{
+            font-style: italic;
+        }
+        #negrita{
+            font-weight: bold;
+        }
+        #rojo{
+            color: red;
+        }
+        #amarillo{
+            color: yellow;
+        }
+        #verde{
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        document.addEventListener('DOMContentLoaded',function(){
+            crearAjax('u6e6_series_json.json',crearTabla);
+        },false);
+        function crearTabla(texto){
+            anadirElemento(query("body")['0'],crearElemento('table'));
+            anadirElemento(query("table")['0'],crearElemento("tr"));
+            query("tr")['0'].innerHTML = "<th>Titulo</th><th>Cadena</th><th>Director</th><th>Año</th><th>Terminada</th>";
+            //texto.querySelectorAll('Serie').forEach(element => {
+            let arrayJson = JsonArr(texto);
+            console.log(arrayJson);
+            arrayJson['Serie'].forEach(element => {
+                var tr = crearElemento("tr");
+                anadirElemento(query("table")['0'],tr);
+                var td1 = crearElemento('td');
+                td1.innerHTML = element['Título'];
+                td1.id = "negrita";
+
+                var td2 = crearElemento('td');
+                td2.innerHTML = element['Cadena'];
+                td2.id = "cursiva"
+
+                var td3 = crearElemento('td');
+                td3.innerHTML = element['Director'];
+                td3.id = "cursiva"
+
+                var td4 = crearElemento('td');
+                td4.innerHTML = element['Año'];
+                td4.id = td4.innerHTML <=2000?"rojo":td4.innerHTML <=2010?"amarillo":"verde";
+            
+                var td5 = crearElemento('td');
+                td5.id="font";
+                td5.innerHTML = element['Terminada']=="si"?"e":"o";
+                anadirElemento(tr,td1);
+                anadirElemento(tr,td2);
+                anadirElemento(tr,td3);
+                anadirElemento(tr,td4);
+                anadirElemento(tr,td5);
+            });
+        }
+        function query(css){
+            return document.querySelectorAll(css);
+        }
+        function JsonArr(json){
+            return JSON.parse(json);
+        }
+        function crearAjax(url,funct){
+            var xhr  = new XMLHttpRequest();
+            xhr.open("GET",url,true);
+            xhr.send();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4  && this.status == 200){
+                    funct(this.responseText);
+                }
+                if((this.readyState ==  4 ||this.readyState ==  2 ||this.readyState ==  3 ) && this.status == 404){
+                    alert("no encontrado");
+                }
+            }
+        }
+        function anadirElemento(elmento,anadir){
+            elmento.appendChild(anadir);
+        }
+        function crearElemento(tipo) {
+            return document.createElement(tipo);
+        }
+    </script>
+</body>
+</html>

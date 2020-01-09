@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        table,td,th,tr{
+            border: 1px solid black;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+
+    <script>
+        document.addEventListener('DOMContentLoaded',function(){
+            crearAjax('archivos/json_portafolio/portafolio.json',consultaAjax);
+        },false);
+        function consultaAjax(e){
+            creartabla(JsonArr(e));
+        }   
+        function creartabla(arr){
+            anadirElemento(query('body')[0],crearElemento('table'));
+            crerFilaTabla(query('table')[0],'th',keysArray(arr['fechas'][0]));
+            arr['fechas'].forEach(element => {
+                var arrayContenidoElement = new Array();
+                var indices = keysArray(arr['fechas'][0]);
+                for(let i = 0;i<indices.length;i++){
+                    arrayContenidoElement.push(element[indices[i]]);
+                }
+                crerFilaTabla(query('table')[0],'th',arrayContenidoElement);
+            });
+        }
+        function keysArray(arr){
+            return Object.keys(arr);
+        }
+        function query(css){
+            return document.querySelectorAll(css);
+        }
+        function JsonArr(json){
+            return JSON.parse(json);
+        }
+        function crearAjax(url,funct){
+            var xhr  = new XMLHttpRequest();
+            xhr.open("GET",url,true);
+            xhr.send();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4  && this.status == 200){
+                    funct(this.responseText);
+                }
+                if((this.readyState ==  4 ||this.readyState ==  2 ||this.readyState ==  3 ) && this.status == 404){
+                    alert("no encontrado");
+                }
+            }
+        }
+        function anadirElemento(elmento,anadir){
+            elmento.appendChild(anadir);
+        }
+        function crearElemento(tipo) {
+            return document.createElement(tipo);
+        }    
+        function crerFilaTabla(elemtoTabla,tipoDeTd,arrayValores){
+            anadirElemento(elemtoTabla,crearElemento('tr'));
+            for(let i = 0;i<arrayValores.length;i++){
+                var consulta = query('tr');
+                var tdOth = crearElemento(tipoDeTd);
+                tdOth.textContent = arrayValores[i];
+                anadirElemento(consulta[consulta.length-1],tdOth);
+            }
+        }
+    </script>
+</body>
+</html>

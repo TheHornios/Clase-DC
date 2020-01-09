@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        table,td {
+            border: solid 1px black;
+        }
+        #form{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <table id="viajes">
+    </table>
+    <div id='botones'>
+        <br/>
+        <input type="button" id='mostar' value="Mostrar viajes comprados">
+        <input type="button" id='comp' disabled value="Comprar">
+        <input type="button" id='borr' disabled value="Anular viaje">
+    </div>
+    <br/>
+    <div id='form'>
+        <label for="">Comprador <input id='Comprador' type="text"></label><br/>
+        <label for="">Descripción <input id='Descripción' type="text" disabled></label><br/>
+        <label for="">Email  <input id='Email' type="mail"></label><br/>
+        <label for="">Cantidad  <input id='Cantidad' type="number" min="1"></label><br/>
+        <label for="">Precio   <input id='Precio' type="text" disabled></label><br/>
+        <label for="">Tarjeta    <input id='Tarjeta' type="number" placeholder="16 numeros" pattern="[0-9]{16}"></label><br/>
+        <label for="">CSV     <input id='CSV' type="number" placeholder="3 numeros" pattern="[0-9]{3}"></label><br/>
+        <input type="button" id='anadir' value="Enviar">
+    </div>
+    <table id='listaComprados'>
+
+    </table>
+    <script>
+        document.addEventListener('DOMContentLoaded',function(){
+            crearAjax('archivos/viajes_php_bd/viajes.json',cargarViajes);
+            $('#mostar')[0].addEventListener('click',mostarViajesComprados);
+            $('#anadir')[0].addEventListener('click',comprarListener);
+            $('#Cantidad')[0].addEventListener('change',calcPrecio);
+        },false);
+        function comprarListener(){
+            var arr = new Array();
+            if($('#Comprador')[0].value==""||$('#Comprador')[0].value==" "){
+                $('#Comprador')[0].placeholder = 'nombre';
+                $('#Comprador')[0].value  = '';
+                arr.push(1);
+            }
+            if($('#Email')[0].value==""||$('#Email')[0].value==" "){
+                $('#Email')[0].placeholder = 'Email';
+                $('#Email')[0].value  = '';
+                arr.push(1);
+            }
+            if($('#Cantidad')[0].value==""||$('#Cantidad')[0].value==" "){
+                $('#Cantidad')[0].placeholder = '1';
+                $('#Cantidad')[0].value  = '1';
+                arr.push(1);
+            }
+            if($('#Tarjeta')[0].value.length!=16){
+                $('#Tarjeta')[0].placeholder = '16 numeros';
+                $('#Tarjeta')[0].value  = '';
+                arr.push(1);
+            }
+            if($('#CSV')[0].value.length!=3){
+                $('#CSV')[0].placeholder = '3 numeros';
+                $('#CSV')[0].value  = '';
+                arr.push(1);
+            }
+            if(arr.length == 0){
+                let arrTerminado = new Array($('#Comprador')[0].value,$('#Descripción')[0].value,$('#Email')[0].value,$('#Cantidad')[0].value,$('#Precio')[0].value,$('#Tarjeta')[0].value,$('#CSV')[0].value);
+                crearAjax('archivos/viajes_php_bd/procesar.php?json='+JSON.stringify(arrTerminado),function(e){
+                    crearAjax('archivos/viajes_php_bd/procesar.php?',cargarViajesComprados);
+                });
+                $('#form')[0].style.display = 'none';
+            }
+        }
+        function comprar(){
+            $('#form')[0].style.display = 'block';
+            vaciarCampos();
+            $("#viajes tr").forEach(element =>{
+                if(element.style.background == 'green'){
+                    $('#Descripción')[0].value = element.firstChild.textContent
+                    $('#Precio')[0].value = element.lastChild.textContent
+                    $('#Cantidad')[0].value =1 ;
+                }
+            });
+        }
+        function calcPrecio(e){
+            $("#viajes tr").forEach(element =>{
+                if(element.style.background == 'green'){
+                    $('#Precio')[0].value =  $('#Cantidad')[0].value * element.lastChild.textContent;
+                }
+            });
+           
+        }
+        function vaciarCampos(){
+            $('#Comprador')[0].value = '';
+            $('#Descripción')[0].value = '';
+            $('#Email')[0].value = '';
+            $('#Cantidad')[0].value = '';
+            $('#Precio')[0].value = '';
+            $('#Tarjeta')[0].value = '';
+            $('#CSV')[0].value = '';
+        }
+        function mostarViajesComprados(){
+            crearAjax('archivos/viajes_php_bd/procesar.php',cargarViajesComprados);
+        }
+        function borrar(){
+            let comprado = null;
+            $('#listaComprados tr').forEach(element =>{
+                if(element.style.background == 'green'){
+                    comprado = element.firstChild.innerHTML;
+                }
+            });
+            crearAjax('archivos/viajes_php_bd/procesar.php?num='+comprado,function(){
+                crearAjax('archivos/viajes_php_bd/procesar.php',cargarViajesComprados);
+            });
+        }
+        function cargarViajesComprados(e){
+            $('#listaComprados')[0].innerHTML = '';
+            arr = JsonArr(e);
+            arr.forEach(element =>{
+                var texto = '<tr>' 
+                element.forEach(ele =>{
+                    texto += '<td>'+ele+"</td>";
+                });
+                texto += '</tr>' 
+                $('#listaComprados')[0].innerHTML += texto;
+            });
+            $('#mostar')[0].disabled = true;
+            $('#listaComprados tr').forEach(element =>{
+                element.addEventListener('click',clickPonerVerde('#listaComprados tr'));
+            });
+            $('#borr')[0].addEventListener('click',borrar);
+        }
+        function clickPonerVerde(css){
+            return function(e){
+                var si = false;
+                if(e.currentTarget.style.background == 'green'){
+                    si =true;
+                }
+                $(css).forEach(element =>{
+                    element.style.background = 'transparent';
+                });
+                if(!si){
+                    e.currentTarget.style.background = 'green';
+                    if(css == '#viajes tr'){
+                        $("#comp")[0].disabled = false;
+                    }
+                    if(css == '#listaComprados tr'){
+                        $("#borr")[0].disabled = false;
+                    }
+                }else{
+                    if(css == '#viajes tr'){
+                        $("#comp")[0].disabled = true;
+                    }
+                    if(css == '#listaComprados tr'){
+                        $("#borr")[0].disabled = true;
+                    }
+                }
+            };
+        }
+        function listenerTablaViajes(css){
+            $(css).forEach(element =>{
+                element.addEventListener('click',clickPonerVerde(css));
+            });
+        }
+        function cargarViajes(e){
+            var viajes = JsonArr(e);
+            viajes['viajes'].forEach(element => {
+                var texto = '<tr>';
+                texto +="<td>"+element['descripcion']+"</td>";
+                texto +="<td>"+element['precio']+"</td>";
+                texto += '</tr>';
+                $('#viajes')[0].innerHTML += texto;
+            });
+            listenerTablaViajes('#viajes tr');
+            $('#comp')[0].addEventListener('click',comprar);
+        }
+        function $(css){
+            return document.querySelectorAll(css);
+        }
+
+        function JsonArr(json){
+            return JSON.parse(json);
+        }
+
+        function crearAjax(url,funct){
+            var xhr  = new XMLHttpRequest();
+            xhr.open("GET",url,true);
+            xhr.send();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4  && this.status == 200){
+                    if(this.responseXML==null){
+                        funct(this.responseText);
+                    }else{
+                        funct(this.responseXML);
+                    }
+                }
+                if((this.readyState ==  4 ||this.readyState ==  2 ||this.readyState ==  3 ) && this.status == 404){
+                    alert("no encontrado");
+                }
+            }
+        }
+
+        function add(elmento,anadir){
+            elmento.appendChild(anadir);
+        }
+
+        function crearElemento(tipo) {
+            return document.createElement(tipo);
+        }
+    </script>
+</body>
+</html>

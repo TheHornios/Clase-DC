@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>EXAMEN VIAJES 17-18</title>
+      
+        <script type="text/javascript" src="index.js"></script>
+        
+    </head>
+    <body onload="cargaViajes();">
+        <div>
+			 <table border='1' id='idTiposViajes' align='center'></table>
+			 <input type="button" value="Mostar viajes Comprados" id="mostrar" onclick="MostrarVaijes();">
+            
+        </div>
+        <br>
+        <div id="idDatosvIAJES">
+            <table border='1' id='idViajes' align='center'></table>
+            
+            <p>
+			 <input type="button" value="Comprar" id="comprar" onclick="cargarFormulario();" disabled>
+			 <input type="button" value="Devolver Viaje" id="devolver" onclick="DevolverViaje();" disabled>
+              
+            </p>
+        </div>
+        <div id="formularioCompra"><br>
+        	<label>Nombre comprador:</label><input type="text" id="idnombre" ><br>
+			<label>Descripción:</label><input type="text" id="idDescripcion" disabled><br>
+			<label>Email:</label><input type="text" id="idEmail"><br>
+			<label>Número de viajes:</label><input type="text" id="idDedicatoria" ><br>
+			<label>Precio:</label><input type="text" id="idPrecio" disabled><br>
+			<label>Numero tarjeta:</label><input type="text" id="idnumero" ><br>
+			<label>CSV:</label><input type="text" id="idcsv" ><br>
+			<button id="idComprar" onclick="ComprarViaje();">Comprar de viaje</button>
+		</div>
+   		<div id="todosViajes"></div>
+    </body>
+</html>

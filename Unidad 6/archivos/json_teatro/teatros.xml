@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TEATROS>
+	<TEATROS_MADRID>
+		<DIRECCION>Calle San Bernardo 5</DIRECCION>
+		<TEATRO>Arlequin Gran Via</TEATRO>			
+	</TEATROS_MADRID>
+	<TEATROS_MADRID>
+		<DIRECCION>Manuela Malasaña</DIRECCION>
+		<TEATRO>Maravillas</TEATRO>			
+	</TEATROS_MADRID>
+	<TEATROS_MADRID>
+		<DIRECCION>Leganes 51</DIRECCION>
+		<TEATRO>Lara</TEATRO>			
+	</TEATROS_MADRID>
+</TEATROS>
+	

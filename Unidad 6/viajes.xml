@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<viajes>
+	<origenYdestino>
+		<origen>Madrid</origen>
+        <destinos>
+            <destino>Barcelona</destino>
+            <destino>Valencia</destino>
+            <destino>Sevilla</destino>
+        </destinos>		
+	</origenYdestino>
+    <origenYdestino>
+		<origen>Barcelona</origen>
+        <destinos>
+            <destino>Madrid</destino>
+            <destino>Zaragoza</destino>
+        </destinos>		
+	</origenYdestino>
+    <origenYdestino>
+		<origen>Valencia</origen>
+        <destinos>
+            <destino>Madrid</destino>
+        </destinos>		
+	</origenYdestino>
+</viajes>

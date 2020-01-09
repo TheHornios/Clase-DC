@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ejercicio 8</title>
+</head>
+<body>
+    <div class="teatro">
+        <h1>Teatros</h1>
+        <select name="origin" id="selectOrigen">
+
+        </select>
+    </div>
+    <div class='cartelera'>
+        <div id="botones">
+            <input type="button" id='primero' value="Primero">
+            <input type="button" id='anterior' value="Anterior">
+            <input type="button" id='siguiente' value="Siguiente">
+            <input type="button" id='ultimo' value="Ultimo">
+        </div>
+        <div class='texto'>
+
+        </div>
+    </div>
+    <script>
+        var arrayCartelera;
+        document.addEventListener('DOMContentLoaded',function(){
+            crearAjax('archivos/json_teatro/cartelera.json',cartelera);
+        },false);
+
+        function listenerSelect(){
+            arrayDeUnTeatro = new Array();
+            arrayCartelera['obras'].forEach(element => {
+                if(element['teatro']==$('#selectOrigen')[0].value){
+                    arrayDeUnTeatro.push(new Array(element['titulo'],element['precio'],element['imagen'],element['sinopsis']));
+                }
+            });
+            mostratPrimero(arrayDeUnTeatro);
+        }
+
+        function mostratPrimero(arr){
+            if(arr.length !=0){
+                mostrarUnCartel(0,arr);
+            }
+            addLisenersBotonesMovimiento(arr);
+        }
+        function mostrarUnCartel(pos,arr){
+            add($('.texto')[0],crearElemento('h3'));
+            $('h3')[0].textContent = arr[pos][0];
+            add($('.texto')[0],crearElemento('p'));
+            $('p')[0].textContent = "Precio: "+arr[pos][1];
+            add($('.texto')[0],crearElemento('img'));
+            $('img')[0].src = "archivos/json_teatro/"+arr[pos][2];
+            add($('.texto')[0],crearElemento('p'));
+            $('p')[1].textContent = "Sinopsis: "+arr[pos][3];
+        }
+        function addLisenersBotonesMovimiento(arr){
+            $('#botones')[0].innerHTML = "<input type='button' id='primero' value='Primero'><input type='button' id='anterior' value='Anterior'><input type='button' id='siguiente' value='Siguiente'><input type='button' id='ultimo' value='Ultimo'>";
+
+            desableAndEnableButoms(arr);
+            $('#primero')[0].addEventListener('click',mover(arr));
+            $('#anterior')[0].addEventListener('click',mover(arr));
+            $('#siguiente')[0].addEventListener('click',mover(arr));
+            $('#ultimo')[0].addEventListener('click',mover(arr));
+        }
+        function mover(arr){
+            return function(e){
+                cambiarDeCartel(e.target.id,arr);
+            };
+        }
+        function cambiarDeCartel(cart,arr){
+            let pos = buscarCartelNum(arr);
+            if(cart == "primero"){
+                mostrarUnCartel(0,arr);
+            }
+            if(cart =="anterior"){
+                mostrarUnCartel(pos-1,arr);
+            }
+            if(cart =="siguiente"){
+                mostrarUnCartel(pos+1,arr);
+            }
+            if(cart =="ultimo"){
+                mostrarUnCartel(arr.length-1,arr);
+            }
+            addLisenersBotonesMovimiento(arr);
+        }
+        function buscarCartelNum(arr){
+            for(let i = 0;i<arr.length;i++){
+                if(arr[i][0]==$('h3')[0].innerHTML){
+                    return i ;
+                }
+            }
+        }
+        function desableAndEnableButoms(arr){
+            if($('h3')[0].innerHTML == arr[0][0]){
+                $('#primero')[0].disabled  = true;
+                $('#anterior')[0].disabled  = true;
+                $('#siguiente')[0].disabled  = false;
+                $('#ultimo')[0].disabled  = false;
+                if(arr.length==1){
+                    $('#siguiente')[0].disabled  = true;
+                    $('#ultimo')[0].disabled  = true;
+                }
+            }else{
+                $('#primero')[0].disabled  = false;
+                $('#anterior')[0].disabled  = false;
+                $('#siguiente')[0].disabled  = false;
+                $('#ultimo')[0].disabled  = false;
+            }
+            if($('h3')[0].innerHTML == arr[arr.length-1][0]&&arr.length!=1){
+                $('#siguiente')[0].disabled  = true;
+                $('#ultimo')[0].disabled  = true;
+                $('#primero')[0].disabled  = false;
+                $('#anterior')[0].disabled  = false;
+            }
+        }
+        function cartelera(e){
+            arrayCartelera = JsonArr(e);
+            crearAjax('archivos/json_teatro/teatros.xml',ajaxCrearOptionsTeatro);
+        }
+
+        function ajaxCrearOptionsTeatro(e){
+            var arr = new Array();
+            e.querySelectorAll("TEATRO").forEach(element => {
+                arr.push(element.innerHTML);
+            });
+            rellenarSelectOption($("#selectOrigen")[0],arr,arr);
+        }
+
+        function rellenarSelectOption(objeto,arrayValores,arrayTexto){
+            for(let i = 0;i<arrayValores.length;i++){
+                var option = crearElemento("option");
+                option.value = arrayValores[i];
+                option.textContent = arrayTexto[i];
+                add($("#selectOrigen")[0],option);
+            }
+            $("#selectOrigen")[0].addEventListener("change",listenerSelect);
+            listenerSelect();
+        }
+
+        function $(css){
+            return document.querySelectorAll(css);
+        }
+
+        function JsonArr(json){
+            return JSON.parse(json);
+        }
+
+        function crearAjax(url,funct){
+            var xhr  = new XMLHttpRequest();
+            xhr.open("GET",url,true);
+            xhr.send();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4  && this.status == 200){
+                    if(this.responseXML==null){
+                        funct(this.responseText);
+                    }else{
+                        funct(this.responseXML);
+                    }
+                }
+                if((this.readyState ==  4 ||this.readyState ==  2 ||this.readyState ==  3 ) && this.status == 404){
+                    alert("no encontrado");
+                }
+            }
+        }
+
+        function add(elmento,anadir){
+            elmento.appendChild(anadir);
+        }
+
+        function crearElemento(tipo) {
+            return document.createElement(tipo);
+        }   
+    </script>
+</body>
+</html>

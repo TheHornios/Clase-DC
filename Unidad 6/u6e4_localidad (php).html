@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" name="ciudad" id="ciudad">
+    <input type="button" id="boton" value="Enviar">
+    <div class="compobar"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded',function(){
+            query("#boton")[0].addEventListener("click",pulsarBoton);
+        },false);
+
+        function pulsarBoton(){
+            crearAjax('unidad4.php?ciudad='+query("#ciudad")[0].value,existeLaCiudad);
+        }
+
+        function existeLaCiudad(e){
+            if(e==-1){
+                query(".compobar")[0].innerHTML = "La ciudad: "+query("#ciudad")[0].value+" no existe";
+                query(".compobar")[0].style.color= 'red'
+            }else{
+                query(".compobar")[0].innerHTML = "La ciudad: "+query("#ciudad")[0].value+" existe";
+                query(".compobar")[0].style.color= 'green'
+            }
+            
+        }
+
+        function query(css){
+            return document.querySelectorAll(css);
+        }
+
+        function crearAjax(url,funct){
+            var xhr  = new XMLHttpRequest();
+            xhr.open("GET",url,true);
+            xhr.send();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4  && this.status == 200){
+                    funct(this.responseText);
+                }
+            }
+        }
+        
+        function anadirElemento(elmento,anadir){
+            elmento.appendChild(anadir);
+        }
+        function crearElemento(tipo) {
+            return document.createElement(tipo);
+        }
+        function quieryInter(lugarBuscar,css){
+            return lugarBuscar.querySelectorAll(css);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .anadir div{
+            top: 10px;
+            left: 2.5px;
+            position: absolute;
+            background: green;
+            display: inline-block;
+            height: 5px;
+            width: 20px;
+            border-radius: 15px;
+        }
+        .e1{
+            transform: rotate(90deg);
+        }
+        .anadir{
+            cursor: pointer;
+            top: 10px;
+            position: relative;
+            display: inline-block;
+            height: 25px;
+            width: 25px;
+            border: 1px solid green;
+            border-radius: 50%;
+        }
+        .borrar{
+            display: flex;
+            align-items: center;
+            height: 50px;
+        }
+        .papelera{
+            height: 150px;
+            position: absolute;
+            right: 20px;
+            top: 20px;
+        }
+        #borrar{
+            cursor: pointer;
+            filter: blur(1px);
+            height: 30px;
+            transition: all 0.25s ease-in;
+        }
+        .pendientes,.terminadas{
+            user-select: none;
+            float:left;
+            width: 40%;
+            height: 80vh;
+            border: black 1px solid;
+            margin: 10px;
+            overflow: auto;
+        }
+        #eleme{
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid black;
+        
+        }
+        #eleme span{
+            user-select: none;
+        }
+        #borrar:hover{
+            filter: blur(0px);
+            height: 35px;
+        }
+    </style>
+</head>
+<body>
+    <div class="botones">
+        <input type="text" list="browsers" name="texto" id="anadirTarea">
+        <datalist id="browsers">
+        </datalist>   
+        <div class="anadir"><div class="e1"></div><div class="e2"></div></div>
+        <div class="borrar">Borrar Todas Las Tareas <img id='borrar' src="./img_onepiece/252-2524991_png-red-x-red-x-mark-transparent-background.png" alt="Icono Borrar"></div>
+    </div>
+    
+    <div class="cuerpo">
+        <img class="papelera" src="./img_onepiece/asdf.png" alt="">
+        <div class="pendientes">
+            <h1>Pendientes</h1>
+        </div>
+        <div class="terminadas">
+            <h1>Terminadas</h1>
+        </div>
+    </div>
+    <script>
+        var dragged;
+        var arr = new Array();
+        var arr2 = new Array();
+        document.addEventListener('DOMContentLoaded',function(){
+            /* Cargar Datos de base de datos */
+            crearAjax('PR_06/pr_06.php',function(e){
+                let aerr = JsonArr(e);
+                if(aerr[0].length!=0){
+                    mostrarTodos(aerr[0],"pendientes");
+                    arr = aerr[0];
+                }
+                if(aerr[1].length!=0){
+                    mostrarTodos(aerr[1],"terminadas");
+                    console.log();
+                    arr2 = aerr[1];
+                }
+            });
+            query(".anadir")[0].addEventListener("click",anadir);
+            query("#borrar")[0].addEventListener("click",borrarTodos);
+            query("#anadirTarea")[0].addEventListener("keypress",function(e){ 
+                if(e.keyCode == "13"){
+                    anadir()
+                } 
+            });
+            query("#anadirTarea")[0].addEventListener("keyup",function(e){ 
+                if(e.keyCode == "13"){
+                }else{
+                    crearAjax('PR_06/autoRelleno.php?key='+query("#anadirTarea")[0].value,function(e){
+                        if(e!= '[]'&&e!= ''){
+                            let aray = JsonArr(e);
+                            let text = '';
+                            for(let i = 0;i<aray.length;i++){
+                                text+="<option value='"+aray[i]+"' />";
+                                /*let option  = crearElemento('option');
+                                option.value = aray[i];
+                                anadirElemento(query('#browsers')[0],option);*/
+                            }
+                            query('#browsers')[0].innerHTML = text;
+                        }
+                    });
+                }
+            });
+
+       
+        },false);
+        function start(ev) {
+            if(ev.target.className == "dropzone"){
+                dragged = ev.target;
+                ev.target.style.opacity = .5;
+            }
+        }
+        function end(e){
+            e.target.style.opacity = "";
+        }
+        function over(e) {
+            e.preventDefault();
+        }
+        function enter(e) {
+            if ( e.target.className == "terminadas" || e.target.className == "pendientes") {
+                e.target.style.background = "orange";
+            }
+            if ( e.target.className == "papelera") {
+                e.target.style.border = "solid 1px black";
+                e.target.style.background = "blue";
+            }
+        }
+        function leave(e) {
+            if ( e.target.className == "terminadas" || e.target.className == "pendientes") {
+                e.target.style.background = "";
+            }
+            if ( e.target.className == "papelera") {
+                e.target.style.background = "";
+            }
+        }
+        function drop(event) {
+            event.preventDefault();
+            if ( event.target.className == "terminadas" ) {
+                event.target.style.background = "";
+                dragged.parentNode.removeChild( dragged );
+                event.target.appendChild( dragged );
+                var i = arr.indexOf( dragged.textContent );
+                if(i!=null &&  i!= -1){
+                    var e = arr[i];
+                    arr.splice( i, 1 );
+                    arr2.push(e);
+                    crearAjax('PR_06/pr_06.php?terminado='+e,function(){});
+                }
+            }
+            if ( event.target.className == "pendientes" ) {
+                event.target.style.background = "";
+                dragged.parentNode.removeChild( dragged );
+                event.target.appendChild( dragged );
+                var i = arr2.indexOf( dragged.textContent );
+                if(i!=null && i!= -1){
+                    
+                    var e = arr2[i];
+                    arr2.splice( i, 1 );
+                    arr.push(e);
+                    crearAjax('PR_06/pr_06.php?pendiente='+e,function(){});
+                }
+            }
+            if ( event.target.className == "papelera") {
+                event.target.style.background = "";
+                event.target.style.border = "";
+                dragged.parentNode.removeChild( dragged );
+                borrar(arr,dragged.textContent,"arr");
+                borrar(arr2,dragged.textContent,"arr2");
+                dragged = null;
+            }
+        }
+        function borrar(array,e,donde) {
+            var i = array.indexOf( e );
+            if(i!=-1){
+                crearAjax('PR_06/pr_06.php?borrar='+e,function(){});
+                array.splice( i, 1 );
+            }
+        }
+        function borrarTodos() {
+            query('.pendientes')[0].innerHTML = "";
+            arr = new Array();
+            let element2 = crearElemento("h1");
+            element2.textContent = "Pendientes";
+            anadirElemento(query('.pendientes')[0],element2);
+            crearAjax('PR_06/pr_06.php?borrarTodo=1',function(){});
+          //  localStorage.removeItem("arr");
+        }
+        function mostrarTodos(params,donde) {
+            for(let i = 0;i<params.length;i++){
+                printearArray(params[i],donde);
+            }
+        }
+        function anadir() {
+            if(query("#anadirTarea")[0].value !="" && query("#anadirTarea")[0].value !=" "){
+                printearArray(query("#anadirTarea")[0].value,"pendientes");
+                arr.push(query("#anadirTarea")[0].value);
+                /* Añadir query("#anadirTarea")[0].value */
+                crearAjax('PR_06/pr_06.php?anadir='+query("#anadirTarea")[0].value,function(){});
+                query("#anadirTarea")[0].value = "";
+                //var myJsonString = JSON.stringify(arr);
+                //localStorage.setItem("arr",myJsonString);
+               
+            }
+           
+        }
+        function printearArray(e,donde) {
+                let element = crearElemento("div");
+                element.id="eleme";
+                element.textContent = e;
+                element.draggable = true;
+                element.className = "dropzone";
+                anadirElemento(query('.'+donde)[0],element);
+                query(".cuerpo")[0].addEventListener('dragend', end, false);
+                query(".cuerpo")[0].addEventListener('dragstart', start, false);
+                query(".cuerpo")[0].addEventListener('dragover', over, false);
+                query(".cuerpo")[0].addEventListener('dragenter', enter, false);
+                query(".cuerpo")[0].addEventListener('dragleave', leave, false);
+                query(".cuerpo")[0].addEventListener('drop', drop, false);
+        }
+        function anadirElemento(elmento,anadir){
+            elmento.appendChild(anadir);
+        }
+        function query(css){
+            return document.querySelectorAll(css);
+        }
+        function crearElemento(tipo) {
+            return document.createElement(tipo);
+        }
+        function crearAjax(url,funct){
+            var xhr  = new XMLHttpRequest();
+            xhr.open("GET",url,true);
+            xhr.send();
+            xhr.onreadystatechange = function(){
+                if(this.readyState == 4  && this.status == 200){
+                    if(this.responseXML==null){
+                        funct(this.responseText);
+                    }else{
+                        funct(this.responseXML);
+                    }
+                }
+                if((this.readyState ==  4 ||this.readyState ==  2 ||this.readyState ==  3 ) && this.status == 404){
+                    alert("no encontrado");
+                }
+            }
+        }
+        function JsonArr(json){
+            return JSON.parse(json);
+        }
+    </script>
+</body>
+</html>

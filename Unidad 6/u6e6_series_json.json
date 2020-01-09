@@ -1,0 +1,25 @@
+{
+      "Serie": [
+        {
+          "Título": "Juego de tronos",
+          "Cadena": "HBO",
+          "Director": "Alfonso",
+          "Año": "2000",
+          "Terminada": "si"
+        },
+        {
+          "Título": "Rick and Morthy",
+          "Cadena": "Netflix",
+          "Director": "Jesus",
+          "Año": "2002",
+          "Terminada": "no"
+        },
+        {
+          "Título": "No se",
+          "Cadena": "FX",
+          "Director": "Maria",
+          "Año": "2019",
+          "Terminada": "no"
+        }
+      ]
+}
