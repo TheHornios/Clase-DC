@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>Probando selectores de jQuery</title>
+	<meta charset="UTF-8">
+	<script src='../jquery-3.4.1.min.js'></script>
+	<style>
+		ul {
+			list-style-type: none;
+		}
+		
+		img {
+			max-width: 100%;
+		}
+		
+		div#header {
+			background-color: gray;
+			text-align: center;
+		}
+		
+		div#wrapper {
+			max-width: 800px;
+			margin: 0 auto;
+			overflow: auto;
+		}
+		
+		div#menu,
+		div#imagenes {
+			padding: 0;
+			margin: 0;
+			float: left;
+		}
+		
+		div#menu {
+			width: 50%;
+		}
+		
+		div#imagenes {
+			width: 50%;
+		}
+		
+		div#footer {
+			border-top: gray solid 1px;
+		}
+		
+		#menu li {
+			padding: .5em .2em;
+			font-size: 1.2em;
+		}
+		
+		#menu li:hover {
+			background-color: gray;
+			color: white;
+			cursor: pointer;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="header">
+		<h1>Probando los selectores jQuery sobre las imágenes</h1>
+	</div>
+	<div id="wrapper">
+		<div id="menu">
+			<ul>
+				<li id="ocultartodo">Ocultar todas</li>
+				<li id="ocultarprimera">Ocultar la primera imagen</li>
+				<li id="ocultarimpares">Ocultar las imagenes impares</li>
+				<li id="ocultarpares">Ocultar las imagenes pares</li>
+				<li id="ocultarultima">Ocultar la última imagen</li>
+				<li id="ocultarid">Ocultar todas las imágenes con identificador resaltar</li>
+				<li id="ocultarclase">Ocultar todas las imágenes de clase secundaria</li>
+				<li id="ocultarenlace">Ocultar las imágenes que están dentro de un enlace</li>
+				<li id="mostrartodo">Mostrar todas</li>
+			</ul>
+		</div>
+		<div id="imagenes">
+			<ul>
+				<li>
+					<a href="#"><img src="imagenes/anchovies.jpg" alt="Esta imagen tiene un enlace" title="Esta imagen tiene un enlace"></a>
+				</li>
+				<li><img class="secundaria" id="resaltar" src="imagenes/bluejellyfish.jpg" alt="Esta imagen es de la clase secundaria y del identificador resaltar" title="Esta imagen es de la clase secundaria y del identificador resaltar">
+				</li>
+				<li><img class="secundaria" src="imagenes/jellyfish1.jpg" alt="Esta imagen es de la clase secundaria" title="Esta imagen es de la clase secundaria">
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="footer">
+		<p>&copy;2015</p>
+	</div>
+	<script>
+		$('#menu li:first-child').mousedown(function(){
+			$('#imagenes').hide();
+		});
+		$('#ocultarprimera').mousedown(function(){
+			$('#imagenes li:first-child').hide();
+		});
+		$('#ocultarimpares').mousedown(function(){
+			//$('#imagenes li:nth-child(odd)').hide();
+			$('img').filter(function(index){ index%2!=0?$( this ).hide():null});
+		});
+		$('#ocultarpares').mousedown(function(){
+			//$('#imagenes li:nth-child(even)').hide();
+			$('img').filter(function(index){ index%2==0?$( this ).hide():null});
+		});
+		$('#ocultarultima').mousedown(function(){
+			$('#imagenes li:last-child').hide();
+		});
+		$('#ocultarid').mousedown(function(){
+			$('#imagenes #resaltar').hide();
+		});
+		$('#ocultarclase').mousedown(function(){
+			$('#imagenes .secundaria').hide();
+		});
+		$('#ocultarenlace').mousedown(function(){
+			$('#imagenes a img').hide();
+		});
+		$('#mostrartodo').mousedown(function(){
+			$('#imagenes').show();
+			$('#imagenes img').show();
+			$('#imagenes li').show();
+		});
+	</script>
+</body>
+
+</html>

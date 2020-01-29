@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head>
+	<title>Probando selectores de jQuery</title>
+	<meta charset="UTF-8">
+	<script src="../jquery-3.4.1.min.js"></script>
+	<style>
+		ul {
+			list-style-type: none;
+		}
+		img {
+			width: 200px;
+			height: 150px;
+		}
+		div#header {
+			background-color: gray;
+			text-align: center;
+		}
+		div#wrapper {
+			max-width: 800px;
+			margin: 0 auto;
+			overflow: auto;
+		}
+		div#menu, div#imagenes {
+			padding: 0;
+			margin: 0;
+			float: left;
+		}
+		div#menu {
+			width: 50%;
+		}
+		div#imagenes {
+			width: 50%;
+			text-align: center;
+		}
+		div#footer {
+			border-top: gray solid 1px;
+		}
+		#menu li {
+			padding: .5em .2em;
+			font-size: 1.2em;
+		}
+		#menu li:hover {
+			background-color: gray;
+			color: white;
+			cursor: pointer;
+		}
+		
+	</style>
+</head>
+<body>
+<div id="header">
+	<h1>Probando los selectores jQuery</h1>
+</div>
+<div id="wrapper">
+	<div id="menu">
+		<ul>
+			<li id="hide">Ocultar todas</li>
+			<li id="show">Mostrar todo</li>
+			<li id="toggle">Cambiar el estado de mostrar/ocultar (toggle())</li>
+			<li id="fadeOut">Ocultar gradualmente (fadeOut())</li>
+			<li id="fadeIn">Mostrar gradualmente (fadeIn())</li>
+			<li id="fadeToggle">Cambiar el estado de mostrar/ocultar gradualmente (fadeToggle())</li>
+			<li id="fadeTo">Desvanecer despacio hasta una opacidad de 0.5 (fadeTo())</li>
+			<li id="slideUp">Ocultar deslizando hacia arriba (slideUp())</li>
+			<li id="slideDown">Mostrar deslizando hacia abajo (slideDown())</li>
+			<li id="slideToggle">Cambiar el estado ocultar/mostrar deslizando (slideToggle())</li>
+			<li id="animate-crecer">Hacer “crecer” las imágenes en 20px a lo alto y a lo ancho (animate())</li>
+			<li id="animate-disminuir">Hacer “disminuir” las imágenes en 20px a lo alto y a lo ancho (animate())</li>
+		</ul>
+	</div>
+	<div id="imagenes">
+		<ul>
+			<li><a href="#"><img src="imagenes/anchovies.jpg" alt="Esta imagen tiene un enlace" title="Esta imagen tiene un enlace"></a>
+			</li>
+			<li><img class="secundaria" id="resaltar" src="imagenes/bluejellyfish.jpg" alt="Esta imagen es de la clase secundaria y del identificador resaltar" title="Esta imagen es de la clase secundaria y del identificador resaltar">
+			</li>
+			<li><img class="secundaria" src="imagenes/jellyfish1.jpg" alt="Esta imagen es de la clase secundaria" title="Esta imagen es de la clase secundaria">
+			</li>
+		</ul>
+		<p>Zona de pruebas</p>
+	</div>
+</div>
+<div id="footer">
+	<p>&copy;2015</p>
+</div>
+<script>
+	$('#hide').click(function(){
+		$('#imagenes img').hide();
+	});
+	$('#show').click(function(){
+		$('#imagenes img').show();
+	});
+	$('#toggle').click(function(){
+		$('#imagenes img').toggle();
+	});
+	$('#fadeOut').click(function(){
+		$('#imagenes img').fadeOut();
+	});
+	$('#fadeIn').click(function(){
+		$('#imagenes img').fadeIn();
+	});
+	$('#fadeToggle').click(function(){
+		$('#imagenes img').fadeToggle();
+	});
+	$('#fadeTo').click(function(){
+		$('#imagenes img').fadeTo('fast',0.5);
+	});
+	$('#slideUp').click(function(){
+		$('#imagenes img').slideUp();
+	});
+	$('#slideDown').click(function(){
+		$('#imagenes img').slideDown();
+	});
+	$('#slideToggle').click(function(){
+		$('#imagenes img').slideToggle();
+	});
+	$('#animate-crecer').click(function(){
+		$('#imagenes img').animate({
+			height:"+=20px",
+			width: "+=20px",
+		},5000,function(){});
+	});
+	$('#animate-disminuir').click(function(){
+		
+		console.log($(this).width);
+		$('#imagenes img').animate({
+			height: "-=20px",
+			width:  "-=20px",
+		},5000);
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+	<title>Probando eventos de jQuery</title>
+	<meta charset="UTF-8">
+	<script src='../jquery-3.4.1.min.js'></script>
+	<style>
+		img {
+			max-width: 100%;
+		}
+		div#header {
+			background-color: gray;
+			text-align: center;
+		}
+		div#wrapper {
+			max-width: 800px;
+			margin: 0 auto;
+			overflow: auto;
+		}
+		div#izquierda, div#centro, div#derecha {
+			padding: 0 0 0 3%;
+			margin: 0;
+			float: left;
+		}
+		div#izquierda {
+			width: 30%;
+		}
+		div#centro {
+			width: 30%;
+		}
+		div#derecha {
+			width: 30%;
+		}
+		div#footer {
+			border-top: gray solid 1px;
+		}
+		
+	</style>
+</head>
+<body>
+<div id="header">
+	<h1>Probando los selectores jQuery</h1>
+</div>
+<div id="wrapper">
+	<div id="izquierda">
+		<p><a href="#"><img src="imagenes/anchovies.jpg" alt=""Prueba los eventos click(), dblclik(), mouseover() y mouseleave()"" title="Prueba los eventos click(), dblclik(), mouseover() y mouseleave()"></a></p>
+		<p class="msg">En este párrafo se verán los eventos que se están produciendo.</p>
+	</div>
+	<div id="centro">
+		<p><a href="#"><img src="imagenes/anchovies.jpg" alt=""Prueba los eventos mousedown(), mouseup() y hover()"" title="Prueba los eventos  mousedown(), mouseup() y hover()"></a></p>
+		<p class="msg">En este párrafo se verán los eventos que se están produciendo.</p>
+	</div>
+	<div id="derecha">
+		<p><input type="text" size="10em"></p>
+		<p class="msg">En este párrafo se verán los eventos que se están produciendo.</p>
+	</div>
+</div>
+<div id="footer">
+	<p>&copy;2015</p>
+</div>
+	<script>
+		//Iz
+		$('#izquierda').mouseenter(function(){
+			ponerEventoParrafo($('#izquierda .msg'),'mouse enter');
+		});
+		$('#izquierda').mouseleave(function(){
+			ponerEventoParrafo($('#izquierda .msg'),'mouse leave');
+		});
+		$('#izquierda').click(function(){
+			ponerEventoParrafo($('#izquierda .msg'),'click');
+		});
+		$('#izquierda').dblclick(function(){
+			ponerEventoParrafo($('#izquierda .msg'),'dblclick');
+		});
+		//Centro
+		$('#centro').mousedown(function(){
+			ponerEventoParrafo($('#centro .msg'),'mousedown');
+		});
+		$('#centro').mouseup(function(){
+			ponerEventoParrafo($('#centro .msg'),'mouseup');
+		});
+		$('#centro').hover(function(){
+			ponerEventoParrafo($('#centro .msg'),'hover');
+		});
+		//derecha
+		$('#derecha input').focus(function(){
+			ponerEventoParrafo($('#derecha .msg'),'focus');
+		});
+		$('#derecha input').blur(function(){
+			ponerEventoParrafo($('#derecha .msg'),'blur');
+		});
+		function ponerEventoParrafo(element,event){
+			element.html(event);
+		}
+	</script>
+</body>
+</html>
