@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="jquery-3.4.1.min.js"></script>
+    <title>Document</title>
+    <style>
+        img{height: 200px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <span>
+    <img src='Sample Pictures/Desert.jpg'/>
+    <img src='Sample Pictures/Hydrangeas.jpg'/>
+    <img src='Sample Pictures/Koala.jpg'/>
+</span>
+    <br/>
+    <input type="button" id='Restaurar' value="Restaurar">
+    <input type="button" id='Rotar' value="Rotar">
+    <input type="button" id='Ocultar' value="Ocultar">
+    <input type="button" id='Mostrar' value="Mostrar">
+    <div>
+
+    </div>
+    <script>
+        $(function(){
+            var arr=['Sample Pictures/Penguins.jpg','Sample Pictures/Tulips.jpg','Sample Pictures/Chrysanthemum.jpg']
+            $('img').data("tam",$('img').height());
+            $('img').hover(function(){
+                $(this).data("cosa",$(this).attr('src'));
+                $(this).attr('src',arr[$(this).index()])
+                $("div").text($(this).attr('src'));
+            },function(){
+                $(this).attr('src',$(this).data("cosa"))
+            })
+            $('img').click(function(){
+                if($(this).data("tam")!=$(this).height()){
+                    $(this).height($(this).data("tam"));
+                }else{
+                    $(this).height($(this).height()+100);
+                    $("div").text( $(this).height());
+                }
+            })
+            $('#Restaurar').click(function(){
+                $('img').height($('img').data("tam"));
+            })
+            $('#Rotar').click(function(){
+                var e = $('img')[$('img').length-1];
+                $('img')[$('img').length-1].remove();
+                $('img')[0].before(e)
+            })
+            $('#Ocultar').click(function(){
+                $('img').hide();
+            });
+            $('#Mostrar').click(function(){
+                $('img').show();
+            })
+        });
+    </script>
+</body>
+</html>

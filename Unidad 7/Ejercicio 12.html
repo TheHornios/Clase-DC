@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="jquery-3.4.1.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <p>Parrafo 1</p>
+    <p>Parrafo Parrafo Parrafo Parrafo Parrafo2</p>
+    <p>Parrafo Parrafo Parrafo Parrafo 3</p>
+    <p>Parrafo 4</p>
+</body>
+<script>
+    $(inicio)
+    function inicio(){
+        /*  */
+        var arr = $.makeArray();
+        for(let i = 0;i<7;i++){
+            arr.push(i)
+        }
+        console.log(arr);
+        /*  */
+        var arr2 = $.makeArray();
+        $(arr).each(x=>{
+            arr2.push(x*3)
+        })
+        console.log(arr2);
+        /*  */
+        var arr3 = $.map(arr,function(i){return i*4});
+        console.log(arr3.join( ", " ));
+        /*  */
+        var arr4 = $.merge(arr,$.merge(arr2,arr3));
+        console.log(arr4);
+        /*  */
+        console.log($('p').length);
+        /*  */
+        console.log($('p').get(2).innerHTML);
+        console.log($($.makeArray($('p'))[2]).html());
+        /*  */
+        var arr5 = $.map($("p"),function(i){return i.innerHTML})
+        console.log($.makeArray(arr5))
+        /*  */
+        console.log($.grep($.map($("p"),function(x){
+                return x.innerHTML
+            }),
+            function(x){
+            if(x.length>10){
+                return true
+            }
+        }));
+    }
+</script>
+</html>

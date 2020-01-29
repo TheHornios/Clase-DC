@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="jquery-3.4.1.min.js"></script>
+    <title>Document</title>
+    <style>
+        .rojo{
+            background: #F5A9BC;
+        }
+        .azul{
+            background: #A9BCF5;
+        }
+        .negrita{
+            font: bold;
+        }
+        table{
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr><th>COLOR</th><th>TEXTO</th></tr>
+        <tr><td>green</td><td>text2</td></tr>
+        <tr><td>blue</td><td>text3</td></tr>
+        <tr><td>black</td><td>text4</td></tr>
+        <tr><td>orange</td><td>text5</td></tr>
+        <tr><td>aqua</td><td>text6</td></tr>
+        <tr><td>red</td><td>text7</td></tr>
+        <tr><td>yellowgreen</td><td>text8</td></tr>
+        <tr><th>COLOR</th><th>TEXTO</th></tr>
+    </table>
+    <br/><br/>
+    Asignar a todas las filas de la tabla un borde sencillo<br/>
+    <input type="button" name='borde1' value='probar'/><br/>
+    Asignar a las filas de encabezado de la parte superior un borde doble.<br/>
+    <input type="button" name='borde2' value='probar'/><br/>
+    Asignar a las filas de encabezado de la parte inferior solo borde superior. El resto de los bordes no se verán.<br/>
+    <input type="button" name='borde3' value='probar'/><br/>
+    Asignar a las celdas pares la clase .rojo.<br/>
+    <input type="button" name='color1' value='probar'/><br/>
+    Asignar a las celdas impares la clase .azul.<br/>
+    <input type="button" name='color2' value='probar'/><br/>
+    Aumentar el alto de las celdas de encabezado para que sea diferente del predeterminado.<br/>
+    <input type="button" name='tama1' value='probar'/><br/>
+    Ocultar la fila 5.<br/>
+    <input type="button" name='ocultar1' value='probar'/><br/>
+    Asignar a cada fila el color indicado en el texto de la primera columna de dicha fila.<br/>
+    <input type="button" name='color3' value='probar'/><br/>
+    <script>
+        $(()=>{
+            $('input').click(function(e){
+                if(e.target.name == 'borde1'){
+                    haceCosas("$('tr')",".css",'"border","1px solid black"');
+                }
+                if(e.target.name == 'borde2'){
+                    haceCosas("$('tr').first()",".css",'"border","4px double black"');
+                }
+                if(e.target.name == 'borde3'){
+                    haceCosas("$('tr').last()",".css",'"border-top","1px solid black"');
+                }
+                if(e.target.name == 'color1'){
+                    haceCosas("$('td:nth-of-type(even)')",".css",'"color","red"');
+                }
+                if(e.target.name == 'color2'){
+                    haceCosas("$('td:nth-of-type(odd)')",".css",'"color","blue"');
+                }
+                if(e.target.name == 'tama1'){
+                    haceCosas("$('tr th')",".css",'"padding-top","20px"');
+                }
+                if(e.target.name == 'ocultar1'){
+                    haceCosas("$('tr:nth-of-type(5)')",".css",'"display","none"');
+                }
+                if(e.target.name == 'color3'){
+                    $('tr').each(function(){
+                        $(this).css('color',$(this).find('td').first().text())
+                    });
+
+                    
+                }
+            })
+        })
+        function primera(){
+        }
+        function haceCosas(element,funcion,parametros){
+            if(parametros.length!=0){
+                $.globalEval(element+(funcion+'('+parametros+')'));
+            }else{
+                $.globalEval(element+(funcion+'()'));
+            }
+        }
+    </script>
+</body>
+</html>
